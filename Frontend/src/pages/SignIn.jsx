@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../services/authService";
+import { signInWithGoogle } from "../services/authService";
 
 function SignIn() {
     const navigate = useNavigate();
@@ -22,6 +23,15 @@ function SignIn() {
             setError(err.message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleGoogleSignIn = async () => {
+        try {
+            setError("");
+            await signInWithGoogle();
+        } catch (err) {
+            setError(err.message);
         }
     };
 
@@ -51,6 +61,22 @@ function SignIn() {
 
                 <button disabled={loading}>
                     {loading ? "Signing In..." : "Sign In"}
+                </button>
+
+                <div className="divider">
+                    <span>OR</span>
+                </div>
+
+                <button
+                    type="button"
+                    className="google-btn"
+                    onClick={handleGoogleSignIn}
+                >
+                    <img
+                        src="https://www.svgrepo.com/show/475656/google-color.svg"
+                        alt="Google"
+                    />
+                    Continue with Google
                 </button>
 
                 <p>

@@ -30,8 +30,10 @@ function SignUp() {
                 form.password
             );
 
-            if (data.session) {
-                navigate("/dashboard");
+            if (!data.session) {
+                setError(
+                    "Account created successfully! Please check your Gmail and verify your email before signing in."
+                );
             } else {
                 setError("Check your email to verify your account.");
             }
@@ -80,6 +82,9 @@ function SignUp() {
                 <button disabled={loading}>
                     {loading ? "Creating Account..." : "Sign Up"}
                 </button>
+                <p>
+                    Minimum Length is 8 digit
+                </p>
 
                 <p>
                     Already have an account? <Link to="/signin">Sign In</Link>

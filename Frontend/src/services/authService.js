@@ -11,6 +11,7 @@ export const signUp = async (name, email, password) => {
         password,
         options: {
             data: { name },
+            emailRedirectTo: `${window.location.origin}/signin`,
         },
     });
 
@@ -23,6 +24,19 @@ export const signIn = async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
+    });
+
+    if (error) throw error;
+
+    return data;
+};
+
+export const signInWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+            redirectTo: "http://localhost:5173/dashboard",
+        },
     });
 
     if (error) throw error;
