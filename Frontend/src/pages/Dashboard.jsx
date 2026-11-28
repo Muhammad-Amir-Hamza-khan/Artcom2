@@ -6,6 +6,7 @@ import { getProducts } from "../services/productService";
 import { useAuth } from "../context/AuthContext";
 
 import ProductCard from "../components/ProductCard";
+import { useSearchParams } from "react-router-dom";
 
 const categories = [
     "All",
@@ -28,7 +29,16 @@ function Dashboard() {
     const [error, setError] = useState("");
 
     const [search, setSearch] = useState("");
-    const [category, setCategory] = useState("All");
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const [category, setCategory] = useState(
+        searchParams.get("category") || "All"
+    );
+
+    useEffect(() => {
+        setCategory(searchParams.get("category") || "All");
+    }, [searchParams]);
 
     useEffect(() => {
         let isMounted = true;

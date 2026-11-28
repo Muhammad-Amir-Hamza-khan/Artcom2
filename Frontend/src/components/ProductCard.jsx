@@ -1,4 +1,13 @@
+
+import { useNavigate } from "react-router-dom";
+
 function ProductCard({ product }) {
+
+    const navigate = useNavigate();
+
+    const openProduct = () => {
+        navigate(`/product/${product.id}`);
+    };
 
     const discount = product.original_price
         ? Math.round(
@@ -8,9 +17,14 @@ function ProductCard({ product }) {
         : 0;
 
     return (
+
         <div className="product-card">
 
-            <div className="product-image">
+            <div
+                className="product-image clickable-product"
+                onClick={openProduct}
+            >
+
                 {discount > 0 && (
                     <span className="discount">
                         -{discount}%
@@ -18,20 +32,27 @@ function ProductCard({ product }) {
                 )}
 
                 <img
-                    src={product.image_url || "https://placehold.co/300x250?text=Product"}
+                    src={product.image_url}
                     alt={product.name}
                 />
+
             </div>
 
             <div className="product-info">
 
-                <h4>{product.name}</h4>
+                <h4
+                    className="clickable-product"
+                    onClick={openProduct}
+                >
+                    {product.name}
+                </h4>
 
                 <p className="product-category">
                     {product.category}
                 </p>
 
                 <div className="product-price">
+
                     <strong>
                         ${Number(product.price).toFixed(2)}
                     </strong>
@@ -41,8 +62,8 @@ function ProductCard({ product }) {
                             ${Number(product.original_price).toFixed(2)}
                         </del>
                     )}
-                </div>
 
+                </div>
                 <p className="stock">
                     {product.stock > 0
                         ? `${product.stock} available`
@@ -50,8 +71,11 @@ function ProductCard({ product }) {
                 </p>
 
                 <button
-                    disabled={product.stock <= 0}
                     className="add-cart-btn"
+                    disabled={product.stock <= 0}
+                    onClick={() => {
+                        // We'll connect the cart functionality later.
+                    }}
                 >
                     Add to Cart
                 </button>
@@ -59,6 +83,7 @@ function ProductCard({ product }) {
             </div>
 
         </div>
+
     );
 }
 
